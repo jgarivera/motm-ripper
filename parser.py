@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     parser = Parser(data, post)
     parser.set_metadata(
-        ["date", "from_time", "to_time", "recording-link", "powerpoint-link"]
+        ["date", "venue", "from_time", "to_time", "recording-link", "powerpoint-link"]
     )
 
     hydrated = parser.get_hydrated()

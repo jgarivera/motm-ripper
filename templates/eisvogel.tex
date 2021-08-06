@@ -929,7 +929,12 @@ $if(titlepage-background)$
   {\Large \textsf{$subtitle$}}
   $endif$
   \vskip 2em
-  \noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$} \vskip 0.6em \textsf{$date$}}
+  \noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$} \vskip 0.15em}
+  \noindent {\Large \textsf{$for(institute)$$institute$$sep$, $endfor$} \vskip 2.15em \textsf{$date$}
+    \textsf{$from_time$} \text{-} \textsf{$to_time$}
+    \vskip 0.15em
+    \textsf{$venue$}
+    }
   \vfill
 }
 $else$
@@ -949,7 +954,7 @@ $endif$
 
 $if(logo)$
 \noindent
-\includegraphics[width=$if(logo-width)$$logo-width$$else$35mm$endif$, left]{$logo$}
+\vspace*{$if(logo-vspace)$$logo-vspace$$else$6cm$endif$}\includegraphics[width=$if(logo-width)$$logo-width$$else$35mm$endif$, left]{$logo$}
 $endif$
 
 $if(titlepage-background)$

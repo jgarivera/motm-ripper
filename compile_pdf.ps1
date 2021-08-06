@@ -2,13 +2,6 @@ $DefaultScratchpad = "scratchpad.md"
 $DefaultOrg = "JISSA-APC"
 $DefaultAgenda = "GeneralMeeting"
 
-$BuildPath = "build"
-    
-If (!(test-path $BuildPath))
-{
-    md $BuildPath
-}
-
 if (!($ScratchPadName = Read-Host "Input scratchpad name ($($DefaultScratchpad))")) { $ScratchPadName = $DefaultScratchpad }
 if (!($OrgName = Read-Host "Input organization name ($($DefaultOrg))")) { $OrgName = $DefaultOrg }
 if (!($AgendaName = Read-Host "Input agenda name ($($DefaultAgenda))")) { $AgendaName = $DefaultAgenda }
@@ -22,6 +15,10 @@ If (!(test-path $HydratePath)) { md $HydratePath }
 Write-Host "Hydrating $($ScratchPadName)"
 
 python parser.py $($ScratchPadName)
+
+$BuildPath = "build"
+    
+If (!(test-path $BuildPath)) { md $BuildPath }
 
 Write-Host "Writing to $($FileName)"
 
