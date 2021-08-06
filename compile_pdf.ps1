@@ -22,4 +22,6 @@ If (!(test-path $BuildPath)) { md $BuildPath }
 
 Write-Host "Writing to $($FileName)"
 
-pandoc "scratchpads/hydrated/$ScratchPadName" -o "$BuildPath/$FileName" --template "templates/eisvogel.tex" --highlight-style tango --from markdown --listings
+pandoc "scratchpads/hydrated/$ScratchPadName" -o "$BuildPath/$FileName" --template "templates/eisvogel.tex" --highlight-style tango --from markdown --filter pandoc-latex-environment --listings
+
+Write-Host "Successfully generated document!"
