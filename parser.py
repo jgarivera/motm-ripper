@@ -1,6 +1,7 @@
 import re
 import frontmatter
 import sys
+import datetime
 
 
 class Parser:
@@ -18,6 +19,11 @@ class Parser:
     def set_metadata(self, keys):
         for key in keys:
             self.metadata[key] = self.post[key]
+        self.__set_offset_seconds()
+
+    def __set_offset_seconds(self):
+        offset_recording_time = self.metadata["offset-recording-time"]
+        self.offset_seconds = self.__get_seconds(offset_recording_time)
 
     def get_hydrated(self):
         self.hydrate_metadata()
@@ -46,23 +52,30 @@ class Parser:
         matches = self.__get_matches()
 
         for match in matches:
-            index, time_string = match["index"], match["string"]
+            index, raw_time_string = match["index"], match["string"]
 
-            time_string_length = len(time_string)
+            raw_seconds = self.__get_seconds(raw_time_string[1:-1])
+            adjusted_seconds = raw_seconds - self.offset_seconds
+            adjusted_time = str(datetime.timedelta(seconds=adjusted_seconds))
+            adjusted_time_string = f"[{adjusted_time}]"
+
+            expanded_string = expanded_string.replace(
+                raw_time_string, adjusted_time_string
+            )
+
+            time_string_length = len(adjusted_time_string)
+            offset_length = len(raw_time_string) - time_string_length
 
             total_offset = index + time_string_length
 
-            seconds = self.__get_seconds(time_string[1:-1])
-
-            link = f"({recording_link}?st={seconds})"
-            link_length = len(link)
+            link = f"({recording_link}?st={adjusted_seconds})"
 
             expanded_string = (
                 expanded_string[: index + time_string_length + self.current_offset]
                 + link
                 + expanded_string[total_offset + self.current_offset :]
             )
-            self.current_offset += link_length
+            self.current_offset += len(link)  - offset_length
 
         self.output = expanded_string
 
@@ -89,7 +102,15 @@ if __name__ == "__main__":
 
     parser = Parser(data, post)
     parser.set_metadata(
-        ["date", "venue", "from_time", "to_time", "recording-link", "powerpoint-link"]
+        [
+            "date",
+            "venue",
+            "offset-recording-time",
+            "from-time",
+            "to-time",
+            "recording-link",
+            "powerpoint-link",
+        ]
     )
 
     hydrated = parser.get_hydrated()
