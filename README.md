@@ -1,10 +1,10 @@
-# MOTMRipper
+# motm-ripper
 
-Minutes of the meeting (MOTM) autogeneration using Pandoc, LaTeX, and Python. Retrofitted for any documentation commitee.
+ Auto-generation tool for minutes of the meeting (MOTM) using Pandoc, LaTeX, and Python. Retrofitted for any documentation commitee.
 
 ## Rationale
 
-MOTMRipper is the answer to _"How might we generate MOTM documents fast?"_ Markdown is used as a quick language. Pandoc then parses the markdown into a beautifully formatted PDF document.
+`motm-ripper` is the answer to _"How might we generate MOTM documents fast?"_ Markdown is used as a quick language. Pandoc then parses the markdown into a beautifully formatted PDF document.
 
 ## Requirements
 
@@ -14,5 +14,3 @@ MOTMRipper is the answer to _"How might we generate MOTM documents fast?"_ Markd
    ```bash
    $ pip install python-frontmatter
    ```
-
-## Usage
